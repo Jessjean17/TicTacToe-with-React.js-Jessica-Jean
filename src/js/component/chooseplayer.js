@@ -1,17 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-//create your first component
-export class ChoosePlayer extends React.Component {
-	constructor(props) {
-		super(props);
-		this.player1 = null;
-		this.player2 = null;
-	}
+import React, { useState } from "react";
 
-	render() {
-		return (
+
+//create your first component
+const ChoosePlayer = (props) => {
+	var { mark, setMark, player1, player2, setPlayer1, setPlayer2 } = props;
+	return (
+		<div className="text-center">
 			<div
-				style={{ display: this.props.hide ? "block" : "none" }}
+				style={{ display: mark ? "none" : "block" }}
 				id="modal-container">
 				<div className="choose-modal">
 					<h3>Choose Your Weapon</h3>
@@ -19,34 +15,28 @@ export class ChoosePlayer extends React.Component {
 						<input
 							type="text"
 							placeholder="Player 1 username"
-							onChange={evt => (this.player1 = evt.target.value)}
+							value={player1}
+							onChange={evt => setPlayer1(evt.target.value)}
 						/>
 						<input
 							type="text"
 							placeholder="Player 2 username"
-							onChange={evt => (this.player2 = evt.target.value)}
+							value={player2}
+							onChange={evt => setPlayer2(evt.target.value)}
 						/>
 					</div>
 					<div className="button-area">
 						<span
-							onClick={() =>
-								this.props.onSetTurn(
-									"x",
-									this.player1,
-									this.player2
-								)
-							}
+							onClick={() => {
+								setMark("x");
+							}}
 							className="x-marker">
 							X
 						</span>
 						<span
-							onClick={() =>
-								this.props.onSetTurn(
-									"o",
-									this.player1,
-									this.player2
-								)
-							}
+							onClick={() => {
+								setMark("o");
+							}}
 							className="o-marker">
 							O
 						</span>
@@ -60,13 +50,8 @@ export class ChoosePlayer extends React.Component {
 					</div>
 				</div>
 			</div>
-		);
-	}
-}
-
-ChoosePlayer.propTypes = {
-	hide: PropTypes.bool,
-	onSetTurn: PropTypes.func
+		</div>
+	);
 };
 
-export default ChoosePlayer; 
+export default ChoosePlayer;

@@ -1,94 +1,66 @@
-import React from "react";
-import { Board } from "../component/board.js";
-import { ChoosePlayer } from "../component/chooseplayer.js";
+import React, { useState } from "react";
+import Board from "./board";
+import ChoosePlayer from "./chooseplayer";
 
 //create your first component
-export class Home extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			player: null,
-			winner: null
-		};
+const Home = () => {
+	const [mark, setMark] = useState("");
+	const [player1, setPlayer1] = useState("");
+	const [player2, setPlayer2] = useState("");
+	const [winner, setWinner] = useState("");
+	const [squareValues, setSquareValues] = useState(["", "", "", "", "", "", "", "", ""]);
+
+	const resetGame = () => {
+		setSquareValues(["", "", "", "", "", "", "", "", ""]);
+		setMark("");
+		setPlayer1("");
+		setPlayer2("");
+		setWinner("");
 	}
 
-	startGame = () => {
-		console.log("Start Game");
-		this.setState({ player: null });
-	};
+	const handleWinner = (winner) => {
+		setWinner(winner);
+	}
 
-	setTurn = (currentPlayer, player1, player2) => {
-		this.setState({
-			player: currentPlayer,
-			player1: player1,
-			player2: player2
-		});
-	};
+	const nextMove = () => {
+		setMark(mark == 'x' ? 'o' : 'x')
+	}
 
-	nextMove = position => {
-		console.log("Next move at position: ", position);
-		this.setState({
-			player: this.state.player == "x" ? "o" : "x"
-		});
-	};
-
-	declareWinner = winner => {
-		this.setState({
-			winner: winner
-		});
-	};
-
-	renderMessage = () => {
-		if (this.state.player == null) {
-			return <h2 id="message">Pick A Weapon</h2>;
-		} else {
-			if (this.state.winner == null) {
-				return (
-					<div>
-						<h2>It is {this.state.player.toUpperCase()} turn!</h2>
-						<button
-							className="btn btn-lg btn-secondary"
-							onClick={this.startOver}>
-							Start Over
-						</button>
-					</div>
-				);
-			} else {
-				return (
-					<div>
-						<h1 style={{ color: "green" }}>
-							{this.state.winner.toUpperCase()} WINS!!!
-						</h1>
-						<button
-							className="btn btn-lg btn-success"
-							style={{ background: "green" }}
-							onClick={this.startOver}>
-							Start Over!
-						</button>
-					</div>
-				);
-			}
-		}
-	};
-
-	render() {
-		return (
+	return (
+		<div className="container-fluid">
 			<div id="msg">
-				<h1>
+				<div className="anouncement">
+					{
+						winner ? <h1>Game over! The Winner is: {winner == "x" ? player1 : player2}</h1> : null
+					}
+
+				</div>
+				<h1 class="my-5">
 					Tic Tac Toe <small>in React.js</small>
 				</h1>
-				{this.renderMessage()}
+				<div>
+					<button
+						onClick={() => resetGame()}
+						className="btn btn-outline-warning my-5">Reset Game</button></div>
+
 				<Board
-					currentPlayer={this.state.player}
-					onMove={this.nextMove}
-					onWinner={this.declareWinner}
+					mark={mark}
+					nextMove={nextMove}
+					handleWinner={handleWinner}
+					squareValues={squareValues}
+					setSquareValues={setSquareValues}
 				/>
 				<ChoosePlayer
-					hide={this.state.player == null ? true : false}
-					onSetTurn={this.setTurn}
+					mark={mark}
+					setMark={setMark}
+					setPlayer1={setPlayer1}
+					setPlayer2={setPlayer2}
+					player1={player1}
+					player2={player2}
 				/>
 			</div>
-		);
-	}
-}
+		</div>
+	);
+};
+
 export default Home;

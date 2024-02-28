@@ -59,8 +59,8 @@ h3 {
 }
 
 .square {
-  color: #605B56 ;
-  border-color: #605B56;
+  color: lightgray ;
+  border-color: lightgray;
   font-size: 6em;
   width: 1.2em;
   height: 1.2em;
@@ -86,9 +86,9 @@ h3 {
 
 
 #modal-container{
-  position: absolute;
+  position: relative;
   left: 50%;
-  top: 50%;
+  top: 30vh;
   transform: translate(-50%, -50%);
   width: 70%;
   height: 400px;
